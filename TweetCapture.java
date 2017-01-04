@@ -1,4 +1,4 @@
-package com.newgen.twittercaptureutility;
+package com.mine.twittercaptureutility;
 
 import org.w3c.dom.NodeList;
 
@@ -39,7 +39,7 @@ public class TweetCapture{
 		try{	
 			TwitterCommonFile twCommon = new TwitterCommonFile();
 		    twCommon.writeToFile("Load Method for TweetCaptureUtility");
-		    String strInputXML="D:/TwitterConfiguration.xml";
+		    String strInputXML="pathofyourxmlfile";
 		    connect(strInputXML);
 		    twCommon.writeToFile("OutputXMl After Connection with twitter \n");
 		}catch (Exception e){
@@ -49,9 +49,7 @@ public class TweetCapture{
 		  }
 	
 	public static void  connect(String strInputXML) throws IOException{
-
-		
-		try	{
+	   try	{
 		Document doc;
 		 String strProxyServer=null;
 		 String strProxyPort=null;
@@ -114,29 +112,21 @@ public class TweetCapture{
 	       Random rand=new Random();
 	       List<Status> status= twitter.getMentionsTimeline();
 	       List listLong = new ArrayList();
-	       listLong=searchInDataBase();
+	       listLong=searchInDataBase(); //save entire tweet Id in a list
 	       for(Status objStatus:status){ 
-	    	  // UserMentionEntity[] user=objStatus.getUserMentionEntities();
-	    	  // if(user.length==0){
 	    		   long longTweetId = objStatus.getId();
 			       String strTweetText = objStatus.getText();
 			       long longUserId = objStatus.getUser().getId();
 			       String strUserScreenName = objStatus.getUser().getScreenName();
-			      // Date tweetCreatedDate = objStatus.getCreatedAt();
-			      // Format formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-			      // String strDate = formatter.format(tweetCreatedDate);
-			       //String source=objStatus.getSource();
-			      // strTweetText = strTweetText.substring(strUserScreenName.length()-1, strTweetText.length()).trim();
 			       strTweetText = strTweetText.substring(objStatus.getInReplyToScreenName().length()+1).trim();
 			       if(objStatus.getInReplyToStatusId()==-1){
 				       if(!listLong.contains(String.valueOf(longTweetId))){
 				    	  int iTicketNo=saveToDataBase(longTweetId,strTweetText,longUserId,strUserScreenName,longTweetId);
 				    	  if(iTicketNo!=0){
-						      //StatusUpdate statusUpdate = new StatusUpdate("@"+strUserScreenName +" Thanks for your query. We will get back to you shortly. Ref ID is ("+iTicketNo+")");
-				    		  StatusUpdate statusUpdate = new StatusUpdate("@"+strUserScreenName + "شكرا لطلبك. نحن سوف نعود اليكم في وقت قريب. المرجع رقم غي  ("+iTicketNo+")");
+						      StatusUpdate statusUpdate = new StatusUpdate("@"+strUserScreenName+ "Hello,User!");				    		 
 				    		  statusUpdate.inReplyToStatusId(longTweetId);
 						      twitter.updateStatus(statusUpdate);
-						      twCommon.writeToFile("Succesfully replied to "+ strUserScreenName +".The corresponding ticket Number is " +iTicketNo );
+						      twCommon.writeToFile("Succesfully replied to "+ strUserScreenName +".");
 				    	  }
 			       		}
 			       }
@@ -151,38 +141,15 @@ public class TweetCapture{
 		    
 		}
 	}
-	 //save tweet data to database
+	 //save tweet data to table
     private static int saveToDataBase(long longTweetID, String strTweetText, long longUserID, String strUserScreenName, long longQueryTweetID) throws IOException{
-    	  String strColumnNameForTweetInfo = "TweetId,TweetText,UserId,UserScreenName,QueryTweetId";
-    	  String strColumnNameForTickets = "Subject, Description, MailUID, tickettype, workinstanceid, responsetext, customeridentifier, "
-    			  							+ "Channel_Name, customername, subcategory, policy, category, ExpectedClosure, CreatedDate, CustomerId,"
-    			  							+"CurrentStage, Remarks, LockByUser, TicketLock, RequestAnalysis, accountno";
-    	  String strColumnNameForQueryTweetInfo="TweetId,TweetText,UserId,UserScreenName,TicketNo";
+    	 
     	String strSql=null;
     	int iTicketNo=0;
     	try
         {
-          // Step 1: "Load" the JDBC driver
-          Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver"); 
-
-          // Step 2: Establish the connection to the database 
-          String url = "jdbc:sqlserver://192.168.54.161:1433;databaseName=rakback;user=sa;password=system123#"; 
-          Connection conn = DriverManager.getConnection(url);  
-          System.out.println(conn);
-          // create a Statement from the connection
-          Statement statement = conn.createStatement();
-
-          // insert the data
-          statement.executeUpdate("Insert into dbo.Usr_0_Tickets ("+ strColumnNameForTickets + ") VALUES ('Twitter', NULL, NULL, 'New', NULL, NULL, NULL, 'Twitter', NULL, NULL, NULL, NULL, NULL,Null, '"+longTweetID+"', NULL, NULL, NULL, NULL, NULL, '')");
-          strSql="SELECT TicketNo FROM dbo.Usr_0_tickets where CustomerId= '"+longTweetID +"'";
-      	  ResultSet rs = statement.executeQuery(strSql);
-      	  while (rs.next()) {
-      		iTicketNo= rs.getInt("TicketNo");
-      	  }
-      	  statement.executeUpdate("Insert into dbo.Usr_0_CSRMS_TW_QueryTweetInfo("+ strColumnNameForQueryTweetInfo + ") VALUES (" +longTweetID +",'" +strTweetText+"'," +longUserID+",'" + strUserScreenName+"'," +iTicketNo +")");
-      	  
-          statement.executeUpdate("Insert into dbo.Usr_0_CSRMS_TW_LinkTweetInfo("+ strColumnNameForTweetInfo + ") VALUES (" +longTweetID +",'" +strTweetText+"'," +longUserID+",'" + strUserScreenName+"'," +longQueryTweetID +")");
-        }
+		//save current tweetId,tweet post,etc. in table.
+           }
         catch (Exception e){
           System.err.println("Database exception!");   
           e.printStackTrace();
@@ -190,26 +157,13 @@ public class TweetCapture{
         } 
     	return iTicketNo;
     }
-    //check for tweetId if exists
+   
     private static List<String> searchInDataBase() throws IOException{
     	 List<String> rowValues = new ArrayList<String>();
     	try
         {
     	 
-          // Step 1: "Load" the JDBC driver
-          Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver"); 
-
-          // Step 2: Establish the connection to the database 
-          String url = "jdbc:sqlserver://192.168.54.161:1433;databaseName=rakback;user=sa;password=system123#"; 
-          Connection conn = DriverManager.getConnection(url);  
-          System.out.println(conn);
-          // create a Statement from the connection
-          Statement statement = conn.createStatement();
-          String sql="Select TweetId from dbo.Usr_0_CSRMS_TW_QueryTweetInfo";
-          ResultSet rs = statement.executeQuery(sql);
-      	  while (rs.next()) {
-      	  rowValues.add(rs.getString(1));
-      	  }
+         //get the list of tweetId save in our table
       	  
           }catch (Exception e){
               System.err.println("Database exception!"); 
