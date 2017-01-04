@@ -1,4 +1,4 @@
-package com.newgen.twittercaptureutility;
+package com.mine.twittercaptureutility;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.DocumentBuilder;
@@ -20,42 +20,13 @@ public class TwitterCommonFile {
 	  Document doc = null;
     try {
 
-    File fXmlFile = new File(strFileName);
-    DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-    DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-    doc = dBuilder.parse(fXmlFile);
+	    File fXmlFile = new File(strFileName);
+	    DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+	    DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+	    doc = dBuilder.parse(fXmlFile);
 
-    doc.getDocumentElement().normalize();
-   /* NodeList nList = doc.getElementsByTagName("TwitterCaptureUtilityInfo");
-	 for (int temp = 0; temp < nList.getLength(); temp++) {
+	    doc.getDocumentElement().normalize();
 
-	        Node nNode = nList.item(temp);
-
-	        System.out.println("\nCurrent Element :" + nNode.getNodeName());
-
-	        if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-
-	            Element eElement = (Element) nNode;
-	            strProxyServer = eElement.getElementsByTagName("ProxyServer").item(0).getTextContent();
-	            System.out.println(strProxyServer);
-	            strProxyPort = eElement.getElementsByTagName("ProxyPort").item(0).getTextContent();
-	            System.out.println(strProxyPort);
-	            strProxyUsername=eElement.getElementsByTagName("ProxyUsername").item(0).getTextContent();
-	            System.out.println(strProxyUsername);
-	            strProxyPassword=eElement.getElementsByTagName("ProxyPassword").item(0).getTextContent();
-	            System.out.println(strProxyPassword);
-	            strConsumerKey=eElement.getElementsByTagName("ConsumerKey").item(0).getTextContent();
-	            System.out.println(strConsumerKey);
-	            strConsumerSecret=eElement.getElementsByTagName("ConsumerSecret").item(0).getTextContent();
-	            System.out.println(strConsumerSecret);
-	            strAccessToken=eElement.getElementsByTagName("AccessToken").item(0).getTextContent();
-	            System.out.println(strAccessToken);
-	            strAccessTokenSecret= eElement.getElementsByTagName("AccessTokenSecret").item(0).getTextContent();
-	            System.out.println(strAccessTokenSecret);
-	            strPaging= eElement.getElementsByTagName("Paging").item(0).getTextContent();
-	            System.out.println(strPaging);
-	        	}
-	 		}*/
     } catch (Exception e) {
      e.printStackTrace();
     	try {
@@ -72,7 +43,7 @@ public class TwitterCommonFile {
 			Date dt=new Date();
 			SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 			String strCurrDate=formatter.format(dt);	
-			String path = "D://TwitterLog.txt";
+			String path = "pathtoyourlogfile";
 			FileWriter Writer = new FileWriter(path,true);
 			Writer.write("\r\n" + strCurrDate +" "+strText );
 			Writer.close();
