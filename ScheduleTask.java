@@ -1,4 +1,4 @@
-package com.newgen.twittercaptureutility;
+package com.mine.twittercaptureutility;
 
 import java.util.TimerTask;
 import java.io.IOException;
