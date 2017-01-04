@@ -6,10 +6,7 @@ import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Timer;
-	/**
-	 *
-	 * @author Dhinakaran P.
-	 */
+	
 	// Create a class extends with TimerTask
 	public class ScheduleTask extends TimerTask {
 		public static TwitterCommonFile twCommon = new TwitterCommonFile();
