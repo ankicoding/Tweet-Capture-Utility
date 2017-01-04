@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TwitterCaptureUtilityInfo>
+<ProxyServer>192.168.25.250</ProxyServer>
+<ProxyPort>8080</ProxyPort>
+<ProxyUsername>anoop.purohit</ProxyUsername>
+<ProxyPassword>Appi123456^</ProxyPassword>
+<ConsumerKey>kcjS5AF2Wc0HzLZcGaeTlDumx</ConsumerKey>
+<ConsumerSecret>TawP9pewn7z6J5CT00PXEuPrdzOclTXFugL1VM9vZJPrEWgTXb</ConsumerSecret>
+<AccessToken>2827759944-EPi9tCpSygaIzWmzueoWa2uH9DJpgWbfjdeeoQF</AccessToken>
+<AccessTokenSecret>MlaGuQ9gmvmoC6eYxP00FU0WSnUVpG68r32myymuEUrPa</AccessTokenSecret>
+<Paging>30</Paging>
+</TwitterCaptureUtilityInfo>
